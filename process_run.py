@@ -11,31 +11,34 @@ TIMES = None
 MAX_WORKERS = None
 
 
-def __miltiply_range(rng):
+def __multiply_range(rng):
+    """Умножение всех элементов между собой в списке."""
     res = 1
     for i in rng:
         res *= i
     return res
 
 
-@timeit(supress_output=True)
-@lru_cache()
+@timeit(suppress_output=True)  # Подавление вывода в консоль
+@lru_cache()  # Декоратор кэширования результатов
 def factorial_multi(n: int):
+    """Запуск расчета факториала в несколько процессов."""
     ppe = ProcessPoolExecutor(max_workers=MAX_WORKERS)
     part_size = n // MAX_WORKERS
 
     ranges = [range(i * part_size, (i + 1) * part_size) for i in range(MAX_WORKERS)]
-    results = ppe.map(__miltiply_range, ranges)
-    return __miltiply_range(results)
+    results = ppe.map(__multiply_range, ranges)
+    return __multiply_range(results)
 
 
-@timeit(supress_output=True)
-@lru_cache()
+@timeit(suppress_output=True)
+@lru_cache()  # Декоратор кэширования результатов
 def factorial_single(n: int):
     return factorial(n)  # встроенная функция в модуле math
 
 
 def main():
+    """Основная функция запускающая тесты."""
     # selected_number = randint(100000, 500000)
     selected_number = 10 ** 6
     print(f'Selected number for factorial: {selected_number}')

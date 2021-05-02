@@ -3,14 +3,14 @@ import time
 
 class timeit(object):
 
-    def __init__(self, supress_output=False):
-        self.supress_output = supress_output
+    def __init__(self, suppress_output=False):
+        self.suppress_output = suppress_output
 
     def __call__(self, func):
         def wrapper(*args, **kw):
             start = time.monotonic()
             print('-' * 10, func.__name__.upper(), 'START', '-' * 10)
-            if self.supress_output:
+            if self.suppress_output:
                 func(*args, **kw)
                 result = 'Your output suppressed'
             else:
