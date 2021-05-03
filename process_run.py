@@ -1,11 +1,9 @@
 import argparse
 import os
 from concurrent.futures import ProcessPoolExecutor
-from math import factorial
 from random import randint
 
 from decos import timeit
-from functools import lru_cache
 
 TIMES = None
 MAX_WORKERS = None
@@ -20,7 +18,6 @@ def __multiply_range(rng):
 
 
 @timeit(suppress_output=True)  # Подавление вывода в консоль
-@lru_cache()  # Декоратор кэширования результатов
 def factorial_multi(n: int):
     """Запуск расчета факториала в несколько процессов."""
     ppe = ProcessPoolExecutor(max_workers=MAX_WORKERS)
@@ -32,15 +29,14 @@ def factorial_multi(n: int):
 
 
 @timeit(suppress_output=True)
-@lru_cache()  # Декоратор кэширования результатов
 def factorial_single(n: int):
-    return factorial(n)  # встроенная функция в модуле math
+    return __multiply_range(range(1, n))
 
 
 def main():
     """Основная функция запускающая тесты."""
     # selected_number = randint(100000, 500000)
-    selected_number = 10 ** 6
+    selected_number = 2 * 10 ** 5
     print(f'Selected number for factorial: {selected_number}')
 
     factorial_single(selected_number)
